@@ -1,0 +1,39 @@
+from azure.identity import DefaultAzureCredential
+from azure.mgmt.resource import ResourceManagementClient
+from azure.mgmt.resource.resources.models import Deployment, DeploymentProperties, DeploymentMode
+
+# Authentication and client initialization
+subscription_id = '<567832>'
+resource_group_name = '<BDSGROUP>'
+deployment_name = '<>'
+template_file_path = 'path/to/your/template.json'
+
+# Create a Resource Management client
+credential = DefaultAzureCredential()
+resource_client = ResourceManagementClient(credential, subscription_id)
+
+# Read the ARM template
+with open(template_file_path, 'r') as template_file:
+    template = template_file.read()
+
+# Define deployment properties
+deployment_properties = DeploymentProperties(
+    mode=DeploymentMode.incremental,
+    template_link={
+        "uri": "https://<your-storage-account>.blob.core.windows.net/templates/template.json"
+    },
+    parameters={
+        # Define any parameters required by your template
+    }
+)
+
+# Create or update the deployment
+deployment = resource_client.deployments.begin_create_or_update(
+    resource_group_name,
+    deployment_name,
+    properties=deployment_properties
+)
+
+# Wait for the deployment to complete
+result = deployment.result()
+print(f"Deployment status: {result.properties.provisioning_state}")
