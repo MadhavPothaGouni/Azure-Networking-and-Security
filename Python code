@@ -3,10 +3,10 @@ from azure.mgmt.resource import ResourceManagementClient
 from azure.mgmt.resource.resources.models import Deployment, DeploymentProperties, DeploymentMode
 
 # Authentication and client initialization
-subscription_id = '<567832>'
-resource_group_name = '<BDSGROUP>'
-deployment_name = '<>'
-template_file_path = 'path/to/your/template.json'
+subscription_id = '12345678-1234-1234-1234-123456789'
+resource_group_name = 'BDSGROUP'
+deployment_name = 'Template'
+template_file_path = 'C:\Users\potha\Downloads\j.son'
 
 # Create a Resource Management client
 credential = DefaultAzureCredential()
